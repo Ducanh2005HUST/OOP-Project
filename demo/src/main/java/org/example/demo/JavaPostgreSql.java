@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.mindrot.jbcrypt.BCrypt;  // For password hashing
+import org.mindrot.jbcrypt.BCrypt;  
 
 public class JavaPostgreSql {
 
@@ -15,7 +15,6 @@ public class JavaPostgreSql {
     public JavaPostgreSql() {
     }
 
-    // Utility method to load properties from the config file
     private static Properties loadProperties() throws IOException {
         Properties properties = new Properties();
         try (FileInputStream input = new FileInputStream("config.properties")) {
@@ -32,7 +31,6 @@ public class JavaPostgreSql {
             String user = properties.getProperty("db.username");
             String password = properties.getProperty("db.password");
 
-            // Hash password before storing
             String hashedPassword = BCrypt.hashpw(userPassword, BCrypt.gensalt());
 
             String query = "INSERT INTO worker(name, email, password) VALUES(?, ?, ?)";
@@ -55,7 +53,6 @@ public class JavaPostgreSql {
         }
     }
 
-    // Check if user credentials exist in the database
     public static void checkToDatabase(String userName, String userEmail, String userPassword) {
         try {
             Properties properties = loadProperties();
